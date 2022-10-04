@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"/>
+    <title>Document</title>
+    <style>        
+        @import url("https://fonts.googleapis.com/css?family=Spartan:400,700&display=swap");
+
+        html {
+        box-sizing: border-box;
+        }
+
+        body {
+        margin: 0;
+        min-height: 100vh;
+        background: #c9ced3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Spartan, sans-serif;
+        font-size: 12px;
+        }
+        .main-player{
+            width: 300px;
+            height: 400px;
+            background: #e7e7e7;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px 5px rgba(0, 0, 0, 0.3);
+        }
+        .player-img{
+            width: 150px;
+            height: 150px;
+            margin: -50px 75px;            
+            background: #e7e7e7;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 15px 30px 5px rgba(0, 0, 0, 0.3);
+        }
+        .player-img img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;            
+            border-radius: 20px;
+            box-shadow: 0 5px 30px 5px rgba(0, 0, 0, 0.5);                        
+        }
+        .title{
+            margin-top: 100px;
+            font-size: 18px;
+        }
+        .article{
+            font-size: 15px;
+        }
+        .player-icons{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-top: 50px;
+            justify-content: space-between;
+        }
+        .fas{
+            margin: 10px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-player">
+        <div class="player-img">
+            <img src="./img/jacinto-1.jpg" alt="jacinto-1">
+        </div>
+        <h1 class="title">Electric Chill Machine</h1>
+        <h2 class="article">Jacinto</h2>
+        <audio src="music/jacinto-1.mp3"></audio>
+        <div class="player-icons">
+            <i class="fas fa-backward" id="prev" title="Previous"></i>
+            <i class="fas fa-play main-button" id="play" title="Play"></i>
+            <i class="fas fa-forward" id="next" title="Next"></i>
+        </div>
+    </div>
+    <script>
+        var image=document.querySelector("img")
+        var article=document.querySelector(".article")
+        var title=document.querySelector(".title")
+        var audio=document.querySelector("audio")
+        var playBtn=document.getElementById("play")
+        var nextBtn=document.getElementById("next")
+        var prevBtn=document.getElementById("prev")
+
+        var songs=[
+        {
+            name: 'jacinto-1',
+            displayName: 'Electric Chill Machine',
+            artist: 'Jacinto Design',
+        },
+        {
+            name: 'jacinto-2',
+            displayName: 'Seven Nation Army (Remix)',
+            artist: 'Jacinto Design',
+        },
+        {
+            name: 'jacinto-3',
+            displayName: 'Goodnight, Disco Queen',
+            artist: 'Jacinto Design',
+        },
+        {
+            name: 'metric-1',
+            displayName: 'Front Row (Remix)',
+            artist: 'Metric/Jacinto Design',
+        },
+        ]
+        var isPlaying=false
+        playBtn.addEventListener("click",()=>(isPlaying?pauseSong():playSong()))
+        function playSong(){
+            isPlaying=true
+            playBtn.classList.replace("fa-play",'fa-pause')
+            playBtn.setAttribute("title","pause")
+            audio.play()
+        }
+        function pauseSong(){
+            isPlaying=false
+            playBtn.classList.replace("fa-pause",'fa-play')
+            playBtn.setAttribute("title","Play")
+            audio.pause()
+        }
+        var count=0
+        nextBtn.addEventListener("click",function(){
+            count++
+            if(count>songs.length-1){
+                count=0
+            }
+            loadSong(songs[count])
+            playSong()
+        })
+        function loadSong(song){
+            article.innerHTML=song.artist
+            title.innerHTML=song.displayName
+            audio.src=`music/${song.name}.mp3`
+            image.src = `img/${song.name}.jpg`;
+        }
+        prevBtn.addEventListener("click",function(){
+            count--
+            if(count<0){
+                count=songs.length-1
+            }
+            loadSong(songs[count])
+            playSong()
+        })
+
+
+
+    </script>
+    
+</body>
+</html>
